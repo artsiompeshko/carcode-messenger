@@ -31,7 +31,7 @@ const PwaInstall = ({ isCustomInstallSupported, isInstalling, isInstalled, handl
       {!isCustomInstallSupported && (
         <div className={classes.root}>
           <Typography variant="subtitle2" gutterBottom>
-            Application was already installed or we do not support your browser.
+            Please, wait while app preparing...
           </Typography>
         </div>
       )}
