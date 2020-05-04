@@ -8,11 +8,17 @@ import { cookieService } from 'core/cookie';
 import { PwaInstall } from './pwa-install';
 import { PushNotifications } from './push-notifications';
 import { Success } from './success';
+import { Start } from './start';
 
 import InstallingModal from './installing-modal.presentation';
 
 function getSteps() {
   return [
+    {
+      key: 'start',
+      title: 'Preparing...',
+      ContentComponent: Start,
+    },
     {
       key: 'install',
       title: 'Install Application',

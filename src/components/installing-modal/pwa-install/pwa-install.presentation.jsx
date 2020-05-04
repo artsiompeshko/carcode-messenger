@@ -10,6 +10,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     textAlign: 'center',
   },
+  title: {
+    margin: `${theme.spacing(0, 0, 3)}!important`,
+  },
 }));
 
 const PwaInstall = ({ isCustomInstallSupported, isInstalling, isInstalled, handleClick }) => {
@@ -19,7 +22,7 @@ const PwaInstall = ({ isCustomInstallSupported, isInstalling, isInstalled, handl
     <>
       {isCustomInstallSupported && (
         <div className={classes.root}>
-          <Typography variant="subtitle2" gutterBottom>
+          <Typography className={classes.title} variant="subtitle2" gutterBottom>
             To make CarCode messenger available offline at any time from you phone, please, click on install button
             below:
           </Typography>

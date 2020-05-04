@@ -29,6 +29,10 @@ const useStyles = makeStyles(theme => ({
   installBtn: {
     marginLeft: 'auto',
   },
+  stepper: {
+    paddingLeft: '0',
+    paddingRight: '0',
+  },
 }));
 
 const InstallingModal = ({
@@ -58,7 +62,7 @@ const InstallingModal = ({
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} fullScreen>
         <DialogTitle id="alert-dialog-slide-title">Installing CarCode Messenger...</DialogTitle>
         <DialogContent>
-          <Stepper activeStep={activeStepIndx} alternativeLabel>
+          <Stepper className={classes.stepper} activeStep={activeStepIndx} alternativeLabel>
             {steps.map(step => (
               <Step key={step.key}>
                 <StepLabel>{step.title}</StepLabel>

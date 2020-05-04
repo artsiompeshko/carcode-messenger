@@ -6,11 +6,10 @@ import { usePwaInstall } from './pwa-install.hook';
 import PwaInstall from './pwa-install.presentation';
 
 const PwaInstallContainer = ({ handleSubmit }) => {
-  const [isCustomInstallSupported, isInstalling, isInstalled, install] = usePwaInstall();
+  const [isCustomInstallSupported, isInstalling, isInstalled, install] = usePwaInstall({ handleSubmit });
 
   const handleClick = () => {
     install();
-    handleSubmit();
   };
 
   return (

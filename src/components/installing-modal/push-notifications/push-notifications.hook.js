@@ -23,11 +23,7 @@ const usePushNotifications = ({ swRegistration, handleSubmit }) => {
       const subscription = await serviceWorkerPush.subscribeUser(swRegistration);
 
       if (subscription) {
-        try {
-          await serviceWorkerPush.updateSubscriptionOnServer(subscription);
-        } catch (e) {
-          // error
-        }
+        await serviceWorkerPush.updateSubscriptionOnServer(subscription);
       }
 
       setSubscribed(true);
@@ -45,11 +41,7 @@ const usePushNotifications = ({ swRegistration, handleSubmit }) => {
       const subscription = await serviceWorkerPush.unsubscribeUser(swRegistration);
 
       if (subscription) {
-        try {
-          await serviceWorkerPush.removeSubscriptionFromServer(subscription);
-        } catch (e) {
-          // error
-        }
+        await serviceWorkerPush.removeSubscriptionFromServer(subscription);
       }
 
       setSubscribed(false);

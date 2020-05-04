@@ -1,6 +1,8 @@
 import { urlUtils, httpUtils } from 'core/utils';
 
-const PUBLIC_KEY = 'BPhmk1dRsQFc0m2laCDsoD6MWdkiziFP5OFtF-Pxb2H9r7waH4vQrTySpdio3E_H3V4_GePYHQhSVYt60NFG7DA';
+import { NOTIFICATIONS_SUBSCRIBE, NOTIFICATIONS_UNSUBSCRIBE } from 'core/constants/api.constant';
+
+const PUBLIC_KEY = 'BHtmWnExKQdRyO8QnteTijOpYFbfCdntNJtsU-hQMsfF_fCx-P5aNLQKeJlD2SfHM90OD5ATdkuYyexMKs-1tXU';
 
 const getIsSubscribed = swRegistration => {
   if (!swRegistration) {
@@ -44,13 +46,16 @@ const unsubscribeUser = swRegistration => {
 };
 
 const removeSubscriptionFromServer = subscription => {
+  const { p256dh, auth } = subscription.keys;
   const { endpoint } = subscription;
 
-  const url = '/api/unsubscribe';
+  const url = NOTIFICATIONS_UNSUBSCRIBE;
 
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify({
+      p256dh,
+      auth,
       endpoint,
     }),
     headers: {
@@ -63,7 +68,7 @@ const sendSubscriptionToServer = subscription => {
   const { p256dh, auth } = subscription.keys;
   const { endpoint } = subscription;
 
-  const url = '/api/subscribe';
+  const url = NOTIFICATIONS_SUBSCRIBE;
 
   return fetch(url, {
     method: 'POST',
