@@ -1,37 +1,27 @@
 import { useEffect, useState } from 'react';
 
-let deferredPrompt = null;
-
 export const usePwaInstall = () => {
-  const [isCustomInstallSupported, setCustomInstallSupported] = useState(false);
+  const [isCustomInstallSupported, setCustomInstallSupported] = useState(!!window.deferredPrompt);
   const [isInstalled, setInstalled] = useState(false);
   const [isInstalling, setInstalling] = useState(false);
 
   useEffect(() => {
-    const onBeforeInstallPrompt = e => {
-      // Prevent the mini-infobar from appearing on mobile
-      e.preventDefault();
-      // Stash the event so it can be triggered later.
-      deferredPrompt = e;
-      setCustomInstallSupported(true);
-    };
-
     const onAppInstalled = () => {
       setInstalled(true);
       setInstalling(false);
     };
 
-    window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt);
-
     window.addEventListener('appinstalled', onAppInstalled);
+    setCustomInstallSupported(!!window.deferredPrompt);
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', onBeforeInstallPrompt);
       window.removeEventListener('appinstalled', onAppInstalled);
     };
   }, []);
 
   const install = () => {
+    const { deferredPrompt } = window;
+
     if (!deferredPrompt) {
       return;
     }

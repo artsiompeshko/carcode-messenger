@@ -1,1 +1,1 @@
-export { default as ConversationsNavigation } from './conversations-navigation.presentation';
+export { default as ConversationsNavigation } from './conversations-navigation.container';

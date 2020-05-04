@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Hidden from '@material-ui/core/Hidden';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -8,24 +10,6 @@ import { NavigationHeader } from 'shared-components/navigation-header';
 
 import { Messages } from './messages';
 import { Footer } from './footer';
-
-const mockDialogProps = {
-  dealer: {
-    name: 'Honda Of Plymouth',
-  },
-  dialog: [
-    {
-      id: 1,
-      body: 'Hello, I am interested in BMW x6',
-      type: 'message',
-    },
-    {
-      id: 1,
-      body: 'Hello, will be glad to help you!',
-      type: 'reply',
-    },
-  ],
-};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,28 +21,53 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     flex: '1 1 100%',
+    justifyContent: 'center',
   },
   header: {
     flexShrink: '0',
   },
+  progress: {
+    width: '100px',
+    margin: '0 auto',
+  },
 }));
 
-const Dialog = () => {
+const Dialog = ({ messages, dealer, isConnecting }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <Hidden mdUp>
         <div className={classes.header}>
-          <NavigationHeader backTo="/conversations">{mockDialogProps.dealer.name}</NavigationHeader>
+          <NavigationHeader backTo="/conversations">{dealer?.name}</NavigationHeader>
         </div>
       </Hidden>
       <div className={classes.content}>
-        <Messages messages={mockDialogProps.dialog} />
-        <Footer />
+        {isConnecting ? (
+          <LinearProgress className={classes.progress} />
+        ) : (
+          <>
+            <Messages messages={messages} />
+            <Footer />
+          </>
+        )}
       </div>
     </div>
   );
+};
+
+Dialog.defaultProps = {
+  messages: null,
+  dealer: null,
+  isConnecting: false,
+};
+
+Dialog.propTypes = {
+  messages: PropTypes.arrayOf(PropTypes.shape({})),
+  dealer: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }),
+  isConnecting: PropTypes.bool,
 };
 
 export default Dialog;

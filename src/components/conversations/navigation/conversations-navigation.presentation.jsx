@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
@@ -13,13 +14,6 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import { NavigationHeader } from 'shared-components/navigation-header';
 import { ListItemLink } from 'shared-components/list-item-link';
-
-const mockLinks = [
-  {
-    id: 1,
-    dealerName: 'Honda Of Plymouth',
-  },
-];
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ConversationsNavigation = () => {
+const ConversationsNavigation = ({ dealers }) => {
   const classes = useStyles();
 
   return (
@@ -46,19 +40,27 @@ const ConversationsNavigation = () => {
         <NavigationHeader backTo="/">Conversations</NavigationHeader>
       </Hidden>
       <List className={classes.list}>
-        {mockLinks.map(link => (
-          <ListItemLink key={link.id} to={`/conversations/${link.id}`}>
+        {dealers?.map(dealer => (
+          <ListItemLink key={dealer.id} to={`/conversations/${dealer.phoneNumber}`}>
             <ListItemAvatar>
               <Avatar>
                 <AccountCircle />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={link.dealerName} />
+            <ListItemText primary={dealer.name} />
           </ListItemLink>
         ))}
       </List>
     </Grid>
   );
+};
+
+ConversationsNavigation.defaultProps = {
+  dealers: [],
+};
+
+ConversationsNavigation.propTypes = {
+  dealers: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 export default ConversationsNavigation;

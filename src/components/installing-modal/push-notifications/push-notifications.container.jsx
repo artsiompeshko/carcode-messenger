@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 
-import { SwRegistrationContext } from '../../core/contexts';
+import { SwRegistrationContext } from 'core/contexts';
 
 import { usePushNotifications } from './push-notifications.hook';
 import PushNotifications from './push-notifications.presentation';

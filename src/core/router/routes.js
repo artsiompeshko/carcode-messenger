@@ -49,7 +49,7 @@ export const routes = [
     },
   },
   {
-    path: '/conversations/:id',
+    path: '/conversations/:dealerPhoneNumber',
     exact: true,
     default: {
       main: {

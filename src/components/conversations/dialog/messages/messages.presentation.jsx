@@ -20,7 +20,7 @@ const Messages = ({ messages }) => {
   return (
     <div className={classes.root}>
       {messages.map(message => (
-        <Message message={message} />
+        <Message key={message.id} message={message} />
       ))}
     </div>
   );

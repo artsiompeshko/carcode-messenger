@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 
 import { BrowserRouter as DomRouter, Switch, Route, Link } from 'react-router-dom';
 
+import { useDispatch } from 'react-redux';
+
+import { useQuery } from 'core/hooks';
+import { allActions } from 'core/actions';
+
 import { Navigation } from 'components/navigation';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -107,6 +112,17 @@ function RouteWithSubRoutes(route) {
   const classes = useStyles();
 
   const routeData = route[route.width] || route.default;
+
+  const dispatch = useDispatch();
+  const query = useQuery();
+
+  if (query.get('visitorId')) {
+    dispatch(allActions.customerActions.setVisitorId(query.get('visitorId')));
+  }
+
+  if (query.get('chatterSessionId')) {
+    dispatch(allActions.customerActions.setChatterSessionId(query.get('chatterSessionId')));
+  }
 
   const renderRoute = () => (
     <Route

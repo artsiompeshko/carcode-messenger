@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 
-import { serviceWorkerPush } from '../../core/service-worker';
+import { serviceWorkerPush } from 'core/service-worker';
 
 const usePushNotifications = ({ swRegistration }) => {
   const [isSubscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
     async function getIsSubscribed() {
-      const isSubscribed = await serviceWorkerPush.getIsSubscribed(swRegistration);
+      const nextSubscribed = await serviceWorkerPush.getIsSubscribed(swRegistration);
 
-      setSubscribed(isSubscribed);
+      setSubscribed(nextSubscribed);
     }
 
     getIsSubscribed();

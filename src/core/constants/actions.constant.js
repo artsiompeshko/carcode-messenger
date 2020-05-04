@@ -1,0 +1,4 @@
+export const SET_DEALERS = 'SET_DEALERS';
+
+export const SET_VISITOR_ID = 'SET_VISITOR_ID';
+export const SET_CHATTER_SESSION_ID = 'SET_CHATTER_SESSION_ID';

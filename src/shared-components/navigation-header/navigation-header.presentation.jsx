@@ -7,6 +7,8 @@ import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+import { InstallingModal } from 'components/installing-modal';
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -33,6 +35,7 @@ const NavigationHeader = ({ backTo, children }) => {
         <KeyboardBackspaceIcon className={classes.arrowBack} />
       </NavLink>
       {children}
+      <InstallingModal />
     </div>
   );
 };
