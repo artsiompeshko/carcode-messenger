@@ -37,9 +37,6 @@ const InstallingModal = ({ open, activeStepIndx, steps, handleOpen, handleNext, 
 
   return (
     <>
-      <Button variant="outlined" color="primary" onClick={handleOpen} className={classes.installBtn}>
-        Install
-      </Button>
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} fullScreen>
         <DialogTitle id="alert-dialog-slide-title">Installing CarCode Messenger...</DialogTitle>
         <DialogContent>
@@ -50,14 +47,16 @@ const InstallingModal = ({ open, activeStepIndx, steps, handleOpen, handleNext, 
               </Step>
             ))}
           </Stepper>
-          <div className={classes.stepContent}>{activeStep.content}</div>
+          <div className={classes.stepContent}>
+            <activeStep.ContentComponent handleSubmit={handleNext} />
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleBack} className={classes.backButton}>
             {activeStepIndx === 0 ? 'Close' : 'Back'}
           </Button>
           <Button color="primary" onClick={handleNext}>
-            {activeStepIndx === steps.length - 1 ? 'Finish' : 'Next'}
+            {activeStepIndx === steps.length - 1 ? 'Continue Messaging' : 'Next'}
           </Button>
         </DialogActions>
       </Dialog>
@@ -72,11 +71,7 @@ InstallingModal.defaultProps = {
 InstallingModal.propTypes = {
   open: PropTypes.bool,
   activeStepIndx: PropTypes.number.isRequired,
-  steps: PropTypes.arrayOf(
-    PropTypes.shape({
-      content: PropTypes.node.isRequired,
-    }),
-  ).isRequired,
+  steps: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   handleOpen: PropTypes.func.isRequired,
   handleBack: PropTypes.func.isRequired,
   handleNext: PropTypes.func.isRequired,

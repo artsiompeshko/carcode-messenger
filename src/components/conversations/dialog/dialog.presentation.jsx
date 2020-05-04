@@ -39,7 +39,7 @@ const Dialog = ({ messages, dealer, isConnecting }) => {
     <div className={classes.root}>
       <Hidden mdUp>
         <div className={classes.header}>
-          <NavigationHeader backTo="/conversations">{dealer?.name}</NavigationHeader>
+          <NavigationHeader backTo="/conversations">{dealer?.dealerName}</NavigationHeader>
         </div>
       </Hidden>
       <div className={classes.content}>
@@ -65,7 +65,7 @@ Dialog.defaultProps = {
 Dialog.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.shape({})),
   dealer: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    dealerName: PropTypes.string.isRequired,
   }),
   isConnecting: PropTypes.bool,
 };

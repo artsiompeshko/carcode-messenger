@@ -12,23 +12,33 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const PushNotifications = ({ disabled, handleClick }) => {
+const PushNotifications = ({ disabled, isSubscribed, handleClick }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Typography variant="subtitle2" gutterBottom>
-        We can send you notifications when new message comes from dealer:
-      </Typography>
-      <Button disabled={disabled} color="primary" onClick={handleClick}>
-        Enable push notifications
-      </Button>
+      {!isSubscribed && (
+        <>
+          <Typography variant="subtitle2" gutterBottom>
+            We can send you notifications when new message comes from dealer:
+          </Typography>
+          <Button disabled={disabled} color="primary" onClick={handleClick}>
+            Enable push notifications
+          </Button>
+        </>
+      )}
+      {isSubscribed && (
+        <Typography variant="subtitle2" gutterBottom>
+          You already have enabled notifications. Thanks!
+        </Typography>
+      )}
     </div>
   );
 };
 
 PushNotifications.propTypes = {
   disabled: PropTypes.bool.isRequired,
+  isSubscribed: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
 };
 

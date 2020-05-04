@@ -15,6 +15,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { NavigationHeader } from 'shared-components/navigation-header';
 import { ListItemLink } from 'shared-components/list-item-link';
 
+import { dealersService } from 'core/dealers';
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -41,13 +43,13 @@ const ConversationsNavigation = ({ dealers }) => {
       </Hidden>
       <List className={classes.list}>
         {dealers?.map(dealer => (
-          <ListItemLink key={dealer.id} to={`/conversations/${dealer.phoneNumber}`}>
+          <ListItemLink key={dealer.dealerId} to={`/conversations/${dealersService.getDefaultNumber(dealer)}`}>
             <ListItemAvatar>
               <Avatar>
                 <AccountCircle />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={dealer.name} />
+            <ListItemText primary={dealer.dealerName} />
           </ListItemLink>
         ))}
       </List>

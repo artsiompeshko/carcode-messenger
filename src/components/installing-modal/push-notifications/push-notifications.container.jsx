@@ -13,7 +13,7 @@ const PushNotificationsContainer = () => {
     return null;
   }
 
-  return <PushNotifications disabled={isSubscribed || !swRegistration} handleClick={toggleSubscription} />;
+  return <PushNotifications isSubscribed={isSubscribed} disabled={!swRegistration} handleClick={toggleSubscription} />;
 };
 
 export default PushNotificationsContainer;
