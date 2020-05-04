@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -18,31 +18,35 @@ export default ({ onMessage }) => {
     visitorId,
   });
 
-  let socket;
+  const socketRef = useRef();
   useEffect(() => {
-    socket = new WebSocket(socketUrl);
+    if (!socketRef.current) {
+      socketRef.current = new WebSocket(socketUrl);
 
-    socket.onopen = () => {
-      sendMessage({
-        webSoketEvent: WS_MESSAGE_EVENT.HISTORY,
-        notificationData: null,
-      });
+      socketRef.current.onopen = () => {
+        sendMessage({
+          webSoketEvent: WS_MESSAGE_EVENT.HISTORY,
+          notificationData: null,
+        });
+      };
+    }
+
+    return () => {
+      socketRef.current.close();
     };
+  }, [socketUrl]);
 
-    socket.onmessage = event => {
+  useEffect(() => {
+    socketRef.current.onmessage = event => {
       const data = JSON.parse(event.data);
 
       onMessage(data);
     };
-
-    return () => {
-      socket.close();
-    };
-  }, [socketUrl]);
+  }, [onMessage]);
 
   const sendMessage = message => {
-    socket && socket.send(JSON.stringify(message));
+    socketRef.current && socketRef.current.send(JSON.stringify(message));
   };
 
-  return [socket, sendMessage, isConnecting, setConnecting];
+  return [socketRef.current, sendMessage, isConnecting, setConnecting];
 };

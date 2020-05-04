@@ -21,13 +21,34 @@ const DialogSocket = () => {
 
         break;
       }
+      case WS_MESSAGE_EVENT.CONFIRMATION_MESSAGE: {
+        setMessages([...messages, message.data]);
+
+        break;
+      }
+      case WS_MESSAGE_EVENT.REPLY: {
+        setMessages([...messages, message.data]);
+
+        break;
+      }
       default: {
         console.log('not processed event', message);
       }
     }
   }
 
-  return <DialogContainer messages={messages} isConnecting={isConnecting} />;
+  function onSubmit(body) {
+    sendMessage({
+      webSoketEvent: WS_MESSAGE_EVENT.MESSAGE,
+      notificationData: {
+        attachments: [],
+        body,
+        type: 'message',
+      },
+    });
+  }
+
+  return <DialogContainer messages={messages} isConnecting={isConnecting} handleSubmit={onSubmit} />;
 };
 
 export default DialogSocket;

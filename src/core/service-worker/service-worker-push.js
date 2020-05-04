@@ -46,7 +46,6 @@ const unsubscribeUser = swRegistration => {
 };
 
 const removeSubscriptionFromServer = subscription => {
-  const { p256dh, auth } = subscription.keys;
   const { endpoint } = subscription;
 
   const url = NOTIFICATIONS_UNSUBSCRIBE;
@@ -54,8 +53,6 @@ const removeSubscriptionFromServer = subscription => {
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify({
-      p256dh,
-      auth,
       endpoint,
     }),
     headers: {
@@ -73,13 +70,12 @@ const sendSubscriptionToServer = subscription => {
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify({
-      p256dh,
-      auth,
+      keys: {
+        p256dh,
+        auth,
+      },
       endpoint,
     }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
   });
 };
 

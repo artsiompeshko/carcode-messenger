@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
@@ -31,9 +32,17 @@ const useStyles = makeStyles(theme => ({
   list: {
     borderRadius: theme.shape.borderRadius,
   },
+  progress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '100px',
+    margin: '0 auto',
+  },
 }));
 
-const ConversationsNavigation = ({ dealers }) => {
+const ConversationsNavigation = ({ dealers, loading }) => {
   const classes = useStyles();
 
   return (
@@ -41,27 +50,33 @@ const ConversationsNavigation = ({ dealers }) => {
       <Hidden mdUp>
         <NavigationHeader backTo="/">Conversations</NavigationHeader>
       </Hidden>
-      <List className={classes.list}>
-        {dealers?.map(dealer => (
-          <ListItemLink key={dealer.dealerId} to={`/conversations/${dealersService.getDefaultNumber(dealer)}`}>
-            <ListItemAvatar>
-              <Avatar>
-                <AccountCircle />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={dealer.dealerName} />
-          </ListItemLink>
-        ))}
-      </List>
+      {loading ? (
+        <LinearProgress className={classes.progress} />
+      ) : (
+        <List className={classes.list}>
+          {dealers?.map(dealer => (
+            <ListItemLink key={dealer.dealerId} to={`/conversations/${dealersService.getDefaultNumber(dealer)}`}>
+              <ListItemAvatar>
+                <Avatar>
+                  <AccountCircle />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={dealer.dealerName} />
+            </ListItemLink>
+          ))}
+        </List>
+      )}
     </Grid>
   );
 };
 
 ConversationsNavigation.defaultProps = {
   dealers: [],
+  loading: false,
 };
 
 ConversationsNavigation.propTypes = {
+  loading: PropTypes.bool,
   dealers: PropTypes.arrayOf(PropTypes.shape({})),
 };
 

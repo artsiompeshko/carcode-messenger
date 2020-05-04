@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Dialog = ({ messages, dealer, isConnecting }) => {
+const Dialog = ({ messages, dealer, isConnecting, handleSubmit }) => {
   const classes = useStyles();
 
   return (
@@ -48,7 +48,7 @@ const Dialog = ({ messages, dealer, isConnecting }) => {
         ) : (
           <>
             <Messages messages={messages} />
-            <Footer />
+            <Footer handleSubmit={handleSubmit} />
           </>
         )}
       </div>
@@ -68,6 +68,7 @@ Dialog.propTypes = {
     dealerName: PropTypes.string.isRequired,
   }),
   isConnecting: PropTypes.bool,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default Dialog;

@@ -9,9 +9,9 @@ import ConversationsNavigation from './conversations-navigation.presentation';
 const ConversationsNavigationContainer = () => {
   const dealers = useSelector(state => state.dealers.list);
 
-  useDealers();
+  const [loading] = useDealers();
 
-  return <ConversationsNavigation dealers={dealers} />;
+  return <ConversationsNavigation dealers={dealers} loading={loading} />;
 };
 
 export default ConversationsNavigationContainer;

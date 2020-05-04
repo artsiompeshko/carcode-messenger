@@ -63,6 +63,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     height: '100%',
+    position: 'relative',
     [theme.breakpoints.down('md')]: {
       borderRadius: '0',
     },

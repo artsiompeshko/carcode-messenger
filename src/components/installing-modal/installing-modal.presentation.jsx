@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 'auto',
   },
   stepper: {
+    marginLeft: '-12px',
     paddingLeft: '0',
     paddingRight: '0',
   },
