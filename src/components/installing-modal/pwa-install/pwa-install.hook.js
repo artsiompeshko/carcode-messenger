@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { cookieService } from 'core/cookie';
+
 export const usePwaInstall = () => {
   const [isCustomInstallSupported, setCustomInstallSupported] = useState(!!window.deferredPrompt);
   const [isInstalled, setInstalled] = useState(false);
@@ -34,6 +36,8 @@ export const usePwaInstall = () => {
     deferredPrompt.userChoice.then(choiceResult => {
       if (choiceResult.outcome === 'accepted') {
         setInstalling(true);
+        cookieService.set('isInstalled', true);
+
         console.log('User accepted the install prompt');
       } else {
         console.log('User dismissed the install prompt');

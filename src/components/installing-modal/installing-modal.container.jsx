@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 
 import { useQuery } from 'core/hooks';
 
+import { cookieService } from 'core/cookie';
+
 import { PwaInstall } from './pwa-install';
 import { PushNotifications } from './push-notifications';
+import { Success } from './success';
 
 import InstallingModal from './installing-modal.presentation';
 
@@ -20,13 +23,20 @@ function getSteps() {
       title: 'Activate Notifications',
       ContentComponent: PushNotifications,
     },
+    {
+      key: 'success',
+      title: 'You are done!',
+      ContentComponent: Success,
+    },
   ];
 }
 
 const InstallingModalContainer = () => {
   const query = useQuery();
+  const isInstalled = !!cookieService.get('isInstalled');
+  const installQuery = !!query.get('install');
 
-  const [open, setOpen] = useState(!!query.get('install'));
+  const [open, setOpen] = useState(!isInstalled && installQuery);
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
 
@@ -70,6 +80,8 @@ const InstallingModalContainer = () => {
       open={open}
       steps={steps}
       activeStepIndx={activeStep}
+      isInstalled={isInstalled}
+      installQuery={installQuery}
       handleNext={handleNext}
       handleBack={handleBack}
       handleOpen={handleOpen}

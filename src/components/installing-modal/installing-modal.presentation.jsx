@@ -31,12 +31,29 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const InstallingModal = ({ open, activeStepIndx, steps, handleOpen, handleNext, handleBack, handleClose }) => {
+const InstallingModal = ({
+  open,
+  activeStepIndx,
+  steps,
+  isInstalled,
+  installQuery,
+  handleOpen,
+  handleNext,
+  handleBack,
+  handleClose,
+}) => {
   const classes = useStyles();
   const activeStep = steps[activeStepIndx];
+  const isReinstall = installQuery && isInstalled;
+  const isLastStep = activeStepIndx === steps.length - 1;
 
   return (
     <>
+      {isReinstall && (
+        <Button variant="outlined" color="primary" className={classes.installBtn} onClick={handleOpen}>
+          Reinstall
+        </Button>
+      )}
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} fullScreen>
         <DialogTitle id="alert-dialog-slide-title">Installing CarCode Messenger...</DialogTitle>
         <DialogContent>
@@ -52,12 +69,16 @@ const InstallingModal = ({ open, activeStepIndx, steps, handleOpen, handleNext, 
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleBack} className={classes.backButton}>
-            {activeStepIndx === 0 ? 'Close' : 'Back'}
-          </Button>
-          <Button color="primary" onClick={handleNext}>
-            {activeStepIndx === steps.length - 1 ? 'Continue Messaging' : 'Next'}
-          </Button>
+          {isReinstall && !isLastStep && (
+            <Button onClick={handleClose} className={classes.backButton}>
+              Close
+            </Button>
+          )}
+          {isLastStep && (
+            <Button color="primary" onClick={handleClose}>
+              Continue Messaging
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </>
@@ -66,12 +87,16 @@ const InstallingModal = ({ open, activeStepIndx, steps, handleOpen, handleNext, 
 
 InstallingModal.defaultProps = {
   open: false,
+  isInstalled: false,
+  installQuery: false,
 };
 
 InstallingModal.propTypes = {
   open: PropTypes.bool,
   activeStepIndx: PropTypes.number.isRequired,
   steps: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  isInstalled: PropTypes.bool,
+  installQuery: PropTypes.bool,
   handleOpen: PropTypes.func.isRequired,
   handleBack: PropTypes.func.isRequired,
   handleNext: PropTypes.func.isRequired,

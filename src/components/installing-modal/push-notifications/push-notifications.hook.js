@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 
 import { serviceWorkerPush } from 'core/service-worker';
 
-const usePushNotifications = ({ swRegistration }) => {
+const usePushNotifications = ({ swRegistration, handleSubmit }) => {
   const [isSubscribed, setSubscribed] = useState(false);
+  const [isSubscribing, setSubscribing] = useState(false);
 
   useEffect(() => {
     async function getIsSubscribed() {
@@ -16,28 +17,43 @@ const usePushNotifications = ({ swRegistration }) => {
   });
 
   function subscribeUser() {
+    setSubscribing(true);
+
     async function subscribe() {
       const subscription = await serviceWorkerPush.subscribeUser(swRegistration);
 
-      setSubscribed(true);
-
       if (subscription) {
-        await serviceWorkerPush.updateSubscriptionOnServer(subscription);
+        try {
+          await serviceWorkerPush.updateSubscriptionOnServer(subscription);
+        } catch (e) {
+          // error
+        }
       }
+
+      setSubscribed(true);
+      setSubscribing(false);
+      handleSubmit();
     }
 
     subscribe();
   }
 
   function unsubscribeUser() {
+    setSubscribing(true);
+
     async function unsubscribe() {
       const subscription = await serviceWorkerPush.unsubscribeUser(swRegistration);
 
-      setSubscribed(false);
-
       if (subscription) {
-        await serviceWorkerPush.removeSubscriptionFromServer(subscription);
+        try {
+          await serviceWorkerPush.removeSubscriptionFromServer(subscription);
+        } catch (e) {
+          // error
+        }
       }
+
+      setSubscribed(false);
+      setSubscribing(false);
     }
 
     unsubscribe();
@@ -51,7 +67,7 @@ const usePushNotifications = ({ swRegistration }) => {
     }
   }
 
-  return [isSubscribed, setSubscribed, toggleSubscription];
+  return [isSubscribed, setSubscribed, toggleSubscription, isSubscribing];
 };
 
 export { usePushNotifications };
