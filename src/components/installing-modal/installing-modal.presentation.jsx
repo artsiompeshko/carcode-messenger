@@ -41,6 +41,7 @@ const InstallingModal = ({
   handleNext,
   handleBack,
   handleClose,
+  handleContinue,
 }) => {
   const classes = useStyles();
   const activeStep = steps[activeStepIndx];
@@ -75,7 +76,7 @@ const InstallingModal = ({
             </Button>
           )}
           {isLastStep && (
-            <Button color="primary" onClick={handleClose}>
+            <Button color="primary" onClick={handleContinue}>
               Continue Messaging
             </Button>
           )}
@@ -101,6 +102,7 @@ InstallingModal.propTypes = {
   handleBack: PropTypes.func.isRequired,
   handleNext: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
+  handleContinue: PropTypes.func.isRequired,
 };
 
 export default InstallingModal;

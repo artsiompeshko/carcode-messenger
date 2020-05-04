@@ -75,6 +75,10 @@ const InstallingModalContainer = () => {
     setOpen(false);
   };
 
+  const handleContinue = () => {
+    handleClose();
+  };
+
   return (
     <InstallingModal
       open={open}
@@ -86,6 +90,7 @@ const InstallingModalContainer = () => {
       handleBack={handleBack}
       handleOpen={handleOpen}
       handleClose={handleClose}
+      handleContinue={handleContinue}
     />
   );
 };
