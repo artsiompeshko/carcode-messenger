@@ -12,7 +12,7 @@ const DialogContainer = props => {
   const { dealerPhoneNumber } = useParams();
   const dealers = useSelector(state => state.dealers.list);
 
-  useDealers();
+  // useDealers();
 
   return <Dialog {...props} dealer={dealersService.findByNumber(dealers, dealerPhoneNumber)} />;
 };
