@@ -13,11 +13,13 @@ const usePushNotifications = ({ swRegistration }) => {
     }
 
     getIsSubscribed();
-  }, [swRegistration]);
+  });
 
   function subscribeUser() {
     async function subscribe() {
       const subscription = await serviceWorkerPush.subscribeUser(swRegistration);
+
+      setSubscribed(true);
 
       if (subscription) {
         await serviceWorkerPush.updateSubscriptionOnServer(subscription);
@@ -30,6 +32,8 @@ const usePushNotifications = ({ swRegistration }) => {
   function unsubscribeUser() {
     async function unsubscribe() {
       const subscription = await serviceWorkerPush.unsubscribeUser(swRegistration);
+
+      setSubscribed(false);
 
       if (subscription) {
         await serviceWorkerPush.removeSubscriptionFromServer(subscription);

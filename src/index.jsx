@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 
 import { serviceWorkerRegistration } from 'core/service-worker';
 
@@ -26,17 +26,9 @@ const theme = createMuiTheme({
 // eslint-disable-next-line no-underscore-dangle
 const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-const onBeforeInstallPrompt = e => {
-  // Prevent the mini-infobar from appearing on mobile
-  e.preventDefault();
-  // Stash the event so it can be triggered later.
-  window.deferredPrompt = e;
-};
-
-window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt);
-
 export const App = () => {
   const [registration, setRegistration] = useState(null);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   useEffect(() => {
     serviceWorkerRegistration.register({
@@ -44,6 +36,17 @@ export const App = () => {
         setRegistration(swRegistration);
       },
     });
+
+    const onBeforeInstallPrompt = e => {
+      // Prevent the mini-infobar from appearing on mobile
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      window.deferredPrompt = e;
+
+      forceUpdate();
+    };
+
+    window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt);
   }, []); // run only once
 
   return (

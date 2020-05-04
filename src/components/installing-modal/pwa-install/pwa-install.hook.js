@@ -12,12 +12,15 @@ export const usePwaInstall = () => {
     };
 
     window.addEventListener('appinstalled', onAppInstalled);
-    setCustomInstallSupported(!!window.deferredPrompt);
 
     return () => {
       window.removeEventListener('appinstalled', onAppInstalled);
     };
   }, []);
+
+  useEffect(() => {
+    setCustomInstallSupported(!!window.deferredPrompt);
+  });
 
   const install = () => {
     const { deferredPrompt } = window;

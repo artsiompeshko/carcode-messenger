@@ -28,9 +28,14 @@ const PushNotifications = ({ disabled, isSubscribed, handleClick }) => {
         </>
       )}
       {isSubscribed && (
-        <Typography variant="subtitle2" gutterBottom>
-          You already have enabled notifications. Thanks!
-        </Typography>
+        <>
+          <Typography variant="subtitle2" gutterBottom>
+            You have already enabled notifications. Thanks!
+          </Typography>
+          <Button disabled={disabled} color="primary" onClick={handleClick}>
+            Disable push notifications
+          </Button>
+        </>
       )}
     </div>
   );
