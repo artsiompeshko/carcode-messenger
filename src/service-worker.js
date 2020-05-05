@@ -29,7 +29,11 @@ self.addEventListener('push', function (event) {
 });
 
 self.onReply = function (event) {
-  event.waitUntil(clients.openWindow(`/conversations/${event.notification.data.dealerPhoneNumber}`));
+  event.waitUntil(
+    clients.openWindow(
+      `https://carcode-messenger.netlify.app/conversations/${event.notification.data.dealerPhoneNumber}`,
+    ),
+  );
 };
 
 self.addEventListener('notificationclick', function (event) {
@@ -42,7 +46,11 @@ self.addEventListener('notificationclick', function (event) {
   if (event.action === 'reply') {
     onReply(event);
   } else {
-    event.waitUntil(clients.openWindow(`/conversations/${event.notification.data.dealerPhoneNumber}`));
+    event.waitUntil(
+      clients.openWindow(
+        `https://carcode-messenger.netlify.app/conversations/${event.notification.data.dealerPhoneNumber}`,
+      ),
+    );
   }
 });
 
