@@ -76,6 +76,9 @@ const sendSubscriptionToServer = subscription => {
       },
       endpoint,
     }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 };
 

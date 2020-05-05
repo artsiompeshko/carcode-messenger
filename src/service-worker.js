@@ -9,7 +9,7 @@ self.addEventListener('push', function (event) {
   console.log(`[Service Worker] Push had this data: "${JSON.stringify(event.data.json())}"`);
 
   const data = event.data.json();
-  const title = data.dealer.name;
+  const title = 'New incoming message';
   const options = {
     body: data.body,
     icon: '/letter.png',
@@ -31,7 +31,7 @@ self.addEventListener('push', function (event) {
 self.onReply = function (event) {
   event.waitUntil(
     clients.openWindow(
-      `https://carcode-messenger.netlify.app/conversations/${event.notification.data.dealerPhoneNumber}`,
+      `https://carcode-messenger.netlify.app/conversations/${event.notification.data.dealerPhoneNumber.number}`,
     ),
   );
 };
@@ -48,7 +48,7 @@ self.addEventListener('notificationclick', function (event) {
   } else {
     event.waitUntil(
       clients.openWindow(
-        `https://carcode-messenger.netlify.app/conversations/${event.notification.data.dealerPhoneNumber}`,
+        `https://carcode-messenger.netlify.app/conversations/${event.notification.data.dealerPhoneNumber.number}`,
       ),
     );
   }
