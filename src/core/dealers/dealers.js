@@ -1,8 +1,6 @@
-const getDefaultNumber = dealer =>
-  dealer.dealerPhoneNumbers.find(phone => phone.label === 'sales').number || dealer.dealerPhoneNumbers[0].number;
+const getDefaultNumber = dealer => dealer.phoneNumberDto.number;
 
-const findByNumber = (dealers, phoneNumber) =>
-  dealers?.find(dealer => dealer.dealerPhoneNumbers.some(({ number }) => number === phoneNumber));
+const findByNumber = (dealers, phoneNumber) => dealers?.find(dealer => dealer.phoneNumberDto.number === phoneNumber);
 
 export default {
   getDefaultNumber,

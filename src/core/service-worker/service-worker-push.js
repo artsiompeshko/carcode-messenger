@@ -1,4 +1,5 @@
 import { urlUtils, httpUtils } from 'core/utils';
+import { cookieService } from 'core/cookie';
 
 import { NOTIFICATIONS_SUBSCRIBE, NOTIFICATIONS_UNSUBSCRIBE } from 'core/constants/api.constant';
 
@@ -50,10 +51,13 @@ const removeSubscriptionFromServer = subscription => {
 
   const url = NOTIFICATIONS_UNSUBSCRIBE;
 
+  const visitorId = cookieService.get('visitorId');
+
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify({
       endpoint,
+      visitorId,
     }),
     headers: {
       'Content-Type': 'application/json',
@@ -65,6 +69,8 @@ const sendSubscriptionToServer = subscription => {
   const { p256dh, auth } = subscription.keys;
   const { endpoint } = subscription;
 
+  const visitorId = cookieService.get('visitorId');
+
   const url = NOTIFICATIONS_SUBSCRIBE;
 
   return fetch(url, {
@@ -75,6 +81,7 @@ const sendSubscriptionToServer = subscription => {
         auth,
       },
       endpoint,
+      visitorId,
     }),
     headers: {
       'Content-Type': 'application/json',

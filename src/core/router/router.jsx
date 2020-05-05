@@ -121,10 +121,6 @@ function RouteWithSubRoutes(route) {
     dispatch(allActions.customerActions.setVisitorId(query.get('visitorId')));
   }
 
-  if (query.get('chatterSessionId')) {
-    dispatch(allActions.customerActions.setChatterSessionId(query.get('chatterSessionId')));
-  }
-
   const renderRoute = () => (
     <Route
       path={route.path}
