@@ -9,17 +9,15 @@ self.addEventListener('push', function (event) {
   console.log(`[Service Worker] Push had this data: "${JSON.stringify(event.data.json())}"`);
 
   const data = event.data.json();
-  const title = 'New incoming Message';
+  const title = data.dealer.name;
   const options = {
-    body: data.message,
-    icon: 'images/icon.png',
-    badge: 'images/badge.png',
+    body: data.body,
+    icon: '/letter.png',
+    badge: '/letter.png',
     actions: [
       {
         action: 'reply',
         title: 'Reply',
-        type: 'text',
-        placeholder: 'Type your quick reply here',
       },
     ],
     data,
@@ -30,23 +28,8 @@ self.addEventListener('push', function (event) {
   event.waitUntil(notificationPromise);
 });
 
-self.sendReply = function (event) {
-  const data = {
-    appReplyId: Date.now(),
-    body: event.reply,
-    inquiryId: event.notification.data.inquiryId,
-    senderDealerId: event.notification.data.senderDealerId,
-    senderUserId: event.notification.data.senderUserId,
-  };
-
-  fetch('https://dev-dsg11-api.carcode.com/carcode/v1/dealer/replies', {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'x-auth-token': event.notification.data.token,
-      'Content-Type': 'application/json',
-    },
-  });
+self.onReply = function (event) {
+  event.waitUntil(clients.openWindow(`/conversations/${event.notification.data.dealerPhoneNumber}`));
 };
 
 self.addEventListener('notificationclick', function (event) {
@@ -57,9 +40,9 @@ self.addEventListener('notificationclick', function (event) {
   event.notification.close();
 
   if (event.action === 'reply') {
-    sendReply(event);
+    onReply(event);
   } else {
-    event.waitUntil(clients.openWindow('https://www.carcode.com'));
+    event.waitUntil(clients.openWindow(`/conversations/${event.notification.data.dealerPhoneNumber}`));
   }
 });
 
